@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwiftBus - Online Bus Booking</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f7f8fa;color:#172033}
+header{height:72px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 7%;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.logo{font-size:28px;font-weight:bold;color:#d91e36}
+nav a{text-decoration:none;color:#333;margin:0 18px;font-size:15px}
+.login-btn{background:#d91e36;color:#fff;padding:11px 22px;border-radius:8px;text-decoration:none}
+.hero{background:linear-gradient(135deg,#d91e36,#b5122a);min-height:520px;padding:75px 7%;color:#fff}
+.hero-content{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:60px}
+.hero-text{width:50%}
+.hero-text h1{font-size:56px;line-height:1.05;margin-bottom:20px}
+.hero-text p{font-size:18px;line-height:1.7;opacity:.9}
+.hero-card{width:470px;background:#fff;color:#172033;padding:30px;border-radius:18px;box-shadow:0 20px 45px rgba(0,0,0,.2)}
+.tabs{display:flex;gap:10px;margin-bottom:22px}
+.tab{border:none;background:#f0f1f4;padding:10px 18px;border-radius:20px;cursor:pointer;font-weight:bold}
+.tab.active{background:#d91e36;color:#fff}
+.field-row{display:flex;gap:12px;margin-bottom:15px}
+.field{flex:1}
+.field label{display:block;font-size:12px;color:#777;margin-bottom:6px}
+.field input{width:100%;padding:13px;border:1px solid #ddd;border-radius:8px;font-size:14px}
+.search-btn{width:100%;padding:15px;border:none;border-radius:9px;background:#d91e36;color:#fff;font-size:16px;font-weight:bold;cursor:pointer}
+.stats{background:#fff;padding:35px 7%}
+.stats-container{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);text-align:center}
+.stat h2{color:#d91e36;font-size:30px}.stat p{color:#777;margin-top:5px}
+section{padding:70px 7%}.container{max-width:1200px;margin:auto}
+.section-title{font-size:32px;margin-bottom:30px}
+.offers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.offer{background:#fff;border-radius:15px;padding:28px;border:1px solid #eee}
+.offer .tag{color:#d91e36;font-size:13px;font-weight:bold}
+.offer h3{margin:12px 0}
+.routes{background:#f1f3f6}
+.route-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.route{background:#fff;padding:22px;border-radius:14px}
+.route span{color:#777;font-size:14px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feature{background:#fff;padding:28px;border-radius:15px;border:1px solid #eee}
+.feature-icon{font-size:30px;margin-bottom:15px}
+.cta{background:#172033;color:#fff;text-align:center;border-radius:22px;padding:55px 20px}
+.cta h2{font-size:36px;margin-bottom:15px}.cta p{color:#c8cbd2;margin-bottom:25px}
+.cta a{display:inline-block;background:#d91e36;color:#fff;text-decoration:none;padding:14px 25px;border-radius:8px}
+footer{background:#101522;color:#fff;padding:45px 7%}
+.footer-container{max-width:1200px;margin:auto;display:flex;justify-content:space-between}
+footer p{color:#aaa;margin-top:8px}
+@media(max-width:900px){
+.hero-content{flex-direction:column}.hero-text,.hero-card{width:100%}
+.stats-container,.offers,.route-grid,.features{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+nav{display:none}.hero-text h1{font-size:40px}
+.stats-container,.offers,.route-grid,.features{grid-template-columns:1fr}
+.field-row{flex-direction:column}.footer-container{flex-direction:column;gap:20px}
+}
+
+/* SEAT SELECTION */
+.seat-page{display:none;background:#f5f6f8;min-height:100vh;padding:45px 7%}
+.seat-container{max-width:1200px;margin:auto}
+.seat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.back-link{color:#d91e36;font-weight:bold;cursor:pointer;display:inline-block;margin-bottom:15px}
+.seat-header h1{font-size:36px;margin-bottom:8px}
+.seat-header p{color:#777}
+.deck-switch{background:white;padding:5px;border-radius:10px}
+.deck{border:0;background:white;padding:11px 18px;border-radius:7px;cursor:pointer;font-weight:bold}
+.deck.active{background:#d91e36;color:white}
+.seat-layout{display:grid;grid-template-columns:1fr 360px;gap:35px;align-items:start}
+.bus{background:white;border:2px solid #ddd;border-radius:55px 55px 25px 25px;padding:20px 30px 25px;max-width:570px;margin:auto;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.bus-front{height:70px;border-bottom:2px dashed #ddd;display:flex;align-items:center;justify-content:space-between;padding:0 20px;color:#777;font-weight:bold}
+.driver{background:#eee;padding:8px 12px;border-radius:8px;font-size:12px}
+.bus-body{padding:20px 0}
+.seat-row{display:grid;grid-template-columns:30px 58px 58px 1fr 58px 58px;gap:9px;align-items:center;margin:12px 0}
+.row-number{color:#999;font-size:12px;text-align:center}
+.aisle{height:10px}
+.seat{height:48px;border-radius:10px 10px 7px 7px;border:2px solid #ddd;background:#fff;cursor:pointer;font-weight:bold;color:#555;position:relative}
+.seat:after{content:"";position:absolute;left:7px;right:7px;bottom:4px;height:4px;border-radius:5px;background:#ddd}
+.seat.window{border-color:#bbb}
+.seat.available:hover{border-color:#d91e36;transform:translateY(-2px)}
+.seat.selected{background:#d91e36;color:white;border-color:#d91e36}
+.seat.selected:after{background:#fff}
+.seat.occupied{background:#e3e5e8;color:#999;border-color:#e3e5e8;cursor:not-allowed}
+.bus-back{text-align:center;border-top:2px dashed #ddd;padding-top:18px;color:#999;font-size:12px;font-weight:bold}
+.seat-summary{background:white;border-radius:18px;padding:25px;box-shadow:0 8px 25px rgba(0,0,0,.07);position:sticky;top:20px}
+.seat-summary h2{margin-bottom:18px}
+.trip-card{background:#f8f8fa;padding:18px;border-radius:12px;line-height:1.8;margin-bottom:25px}
+.trip-card p{font-size:13px;color:#777}
+.seat-summary h3{margin:18px 0 12px}
+.legend{display:grid;gap:10px;font-size:13px;color:#666;border-bottom:1px solid #eee;padding-bottom:20px}
+.legend>div{display:flex;align-items:center;gap:10px}
+.legend-seat{display:inline-block;width:25px;height:22px;border-radius:6px;border:2px solid #ddd;background:white}
+.legend-seat.selected{background:#d91e36;border-color:#d91e36}
+.legend-seat.occupied{background:#e3e5e8;border-color:#e3e5e8}
+.selected-info{padding:15px 0;border-bottom:1px solid #eee}
+.selected-info p{font-size:13px;color:#777;margin-bottom:5px}
+.price{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-size:17px}
+.price strong{font-size:25px;color:#d91e36}
+.continue-btn{width:100%;border:0;background:#d91e36;color:white;padding:15px;border-radius:9px;font-size:16px;font-weight:bold;cursor:pointer}
+@media(max-width:900px){.seat-layout{grid-template-columns:1fr}.seat-summary{position:static}.seat-header{align-items:flex-start;gap:20px;flex-direction:column}}
+@media(max-width:600px){.seat-page{padding:30px 4%}.seat-row{grid-template-columns:20px 45px 45px 1fr 45px 45px;gap:5px}.seat{height:42px;font-size:11px}.bus{padding:15px}.seat-header h1{font-size:28px}}
+
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">SwiftBus</div>
+<nav>
+<a href="#">Home</a><a href="#">Bus Tickets</a><a href="#">Offers</a><a href="#">My Bookings</a>
+</nav>
+<a href="#" class="login-btn">Login</a>
+</header>
+
+<section class="hero">
+<div class="hero-content">
+<div class="hero-text">
+<h1>Travel farther.<br>Book smarter.</h1>
+<p>Discover thousands of bus routes, compare operators, choose your perfect seat and book your journey in minutes.</p>
+</div>
+<div class="hero-card">
+<div class="tabs">
+<button class="tab active">BUS</button><button class="tab">TRAIN</button><button class="tab">FLIGHT</button>
+</div>
+<div class="field-row">
+<div class="field"><label>FROM</label><input type="text" placeholder="Chennai"></div>
+<div class="field"><label>TO</label><input type="text" placeholder="Bengaluru"></div>
+</div>
+<div class="field-row">
+<div class="field"><label>TRAVEL DATE</label><input type="date"></div>
+<div class="field"><label>PASSENGERS</label><input type="number" value="1" min="1"></div>
+</div>
+<button class="search-btn" onclick="searchBus()">Search Buses</button>
+</div>
+</div>
+</section>
+
+<div class="stats"><div class="stats-container">
+<div class="stat"><h2>10,000+</h2><p>Routes</p></div>
+<div class="stat"><h2>2,500+</h2><p>Bus Operators</p></div>
+<div class="stat"><h2>50M+</h2><p>Happy Travellers</p></div>
+<div class="stat"><h2>99.2%</h2><p>On-time Departures</p></div>
+</div></div>
+
+<section><div class="container">
+<h2 class="section-title">Today's top offers</h2>
+<div class="offers">
+<div class="offer"><span class="tag">FIRST RIDE</span><h3>₹250 OFF</h3><p>Get ₹250 off on your first bus booking.</p></div>
+<div class="offer"><span class="tag">WEEKEND</span><h3>Up to 20% OFF</h3><p>Enjoy special weekend travel discounts.</p></div>
+<div class="offer"><span class="tag">GROUP TRAVEL</span><h3>10% OFF</h3><p>Save more when you travel with friends.</p></div>
+</div></div></section>
+
+<section class="routes"><div class="container">
+<h2 class="section-title">Popular routes</h2>
+<div class="route-grid">
+<div class="route"><strong>Chennai → Bengaluru</strong><br><span>From ₹499</span></div>
+<div class="route"><strong>Chennai → Coimbatore</strong><br><span>From ₹399</span></div>
+<div class="route"><strong>Bengaluru → Hyderabad</strong><br><span>From ₹699</span></div>
+<div class="route"><strong>Mumbai → Pune</strong><br><span>From ₹299</span></div>
+</div></div></section>
+
+<section><div class="container">
+<h2 class="section-title">Why choose SwiftBus?</h2>
+<div class="features">
+<div class="feature"><div class="feature-icon">🚌</div><h3>Thousands of Buses</h3><p>Compare buses and operators in one place.</p></div>
+<div class="feature"><div class="feature-icon">💺</div><h3>Choose Your Seat</h3><p>Select your preferred seat before booking.</p></div>
+<div class="feature"><div class="feature-icon">🔒</div><h3>Secure Payments</h3><p>Fast and secure online payment experience.</p></div>
+</div></div></section>
+
+<section><div class="container"><div class="cta">
+<h2>Your next journey is closer than you think.</h2>
+<p>Search buses, compare prices and book your perfect trip.</p>
+<a href="#" onclick="document.querySelector('.hero').scrollIntoView({behavior:'smooth'});return false;">Book Your Bus</a>
+</div></div></section>
+
+
+<!-- SEAT SELECTION PAGE -->
+<section id="seat-selection" class="seat-page">
+<div class="seat-container">
+
+<div class="seat-header">
+<div>
+<span class="back-link" onclick="showHome()">← Back</span>
+<h1>Select your seats</h1>
+<p>Chennai → Bengaluru • SwiftBus Express • 10:30 PM</p>
+</div>
+<div class="deck-switch">
+<button class="deck active">Lower Deck</button>
+<button class="deck">Upper Deck</button>
+</div>
+</div>
+
+<div class="seat-layout">
+
+<div class="bus">
+<div class="bus-front">
+<span>🚌 FRONT</span>
+<span class="driver">Driver</span>
+</div>
+
+<div class="bus-body">
+<div class="seat-row">
+<span class="row-number">1</span>
+<button class="seat window available" data-seat="1A">1A</button>
+<button class="seat available" data-seat="1B">1B</button>
+<div class="aisle"></div>
+<button class="seat available" data-seat="1C">1C</button>
+<button class="seat window available" data-seat="1D">1D</button>
+</div>
+
+<div class="seat-row">
+<span class="row-number">2</span>
+<button class="seat window available" data-seat="2A">2A</button>
+<button class="seat available" data-seat="2B">2B</button>
+<div class="aisle"></div>
+<button class="seat occupied">2C</button>
+<button class="seat window available" data-seat="2D">2D</button>
+</div>
+
+<div class="seat-row">
+<span class="row-number">3</span>
+<button class="seat window available" data-seat="3A">3A</button>
+<button class="seat occupied">3B</button>
+<div class="aisle"></div>
+<button class="seat available" data-seat="3C">3C</button>
+<button class="seat window available" data-seat="3D">3D</button>
+</div>
+
+<div class="seat-row">
+<span class="row-number">4</span>
+<button class="seat window available" data-seat="4A">4A</button>
+<button class="seat available" data-seat="4B">4B</button>
+<div class="aisle"></div>
+<button class="seat available">4C</button>
+<button class="seat window occupied">4D</button>
+</div>
+
+<div class="seat-row">
+<span class="row-number">5</span>
+<button class="seat window available" data-seat="5A">5A</button>
+<button class="seat occupied">5B</button>
+<div class="aisle"></div>
+<button class="seat available" data-seat="5C">5C</button>
+<button class="seat window available" data-seat="5D">5D</button>
+</div>
+
+<div class="seat-row">
+<span class="row-number">6</span>
+<button class="seat window available" data-seat="6A">6A</button>
+<button class="seat available" data-seat="6B">6B</button>
+<div class="aisle"></div>
+<button class="seat occupied">6C</button>
+<button class="seat window available" data-seat="6D">6D</button>
+</div>
+
+<div class="seat-row">
+<span class="row-number">7</span>
+<button class="seat window available" data-seat="7A">7A</button>
+<button class="seat available" data-seat="7B">7B</button>
+<div class="aisle"></div>
+<button class="seat available" data-seat="7C">7C</button>
+<button class="seat window available" data-seat="7D">7D</button>
+</div>
+
+<div class="seat-row">
+<span class="row-number">8</span>
+<button class="seat window available" data-seat="8A">8A</button>
+<button class="seat occupied">8B</button>
+<div class="aisle"></div>
+<button class="seat available" data-seat="8C">8C</button>
+<button class="seat window available" data-seat="8D">8D</button>
+</div>
+</div>
+
+<div class="bus-back">BACK</div>
+</div>
+
+<div class="seat-summary">
+<h2>Your trip</h2>
+<div class="trip-card">
+<strong>SwiftBus Express</strong>
+<p>Chennai → Bengaluru</p>
+<p>Today • 10:30 PM – 06:30 AM</p>
+</div>
+
+<h3>Seat legend</h3>
+<div class="legend">
+<div><span class="legend-seat available"></span> Available</div>
+<div><span class="legend-seat selected"></span> Selected</div>
+<div><span class="legend-seat occupied"></span> Occupied</div>
+</div>
+
+<div class="selected-info">
+<p>Selected seats</p>
+<h3 id="selected-seats">None</h3>
+</div>
+
+<div class="price">
+<span>Total</span>
+<strong id="total-price">₹0</strong>
+</div>
+
+<button class="continue-btn" onclick="continueBooking()">Continue</button>
+</div>
+
+</div>
+</div>
+</section>
+
+<footer><div class="footer-container">
+<div><h2>SwiftBus</h2><p>Travel farther. Book smarter.</p></div>
+<div><h3>Quick Links</h3><p>About Us</p><p>Contact</p><p>Terms & Conditions</p></div>
+</div></footer>
+
+
+<script>
+function showSeatPage(){
+    document.querySelector(".hero").style.display="none";
+    document.querySelector(".stats").style.display="none";
+    document.querySelectorAll("body > section:not(#seat-selection)").forEach(s=>s.style.display="none");
+    document.querySelector("footer").style.display="none";
+    document.getElementById("seat-selection").style.display="block";
+    window.scrollTo(0,0);
+}
+function showHome(){
+    document.getElementById("seat-selection").style.display="none";
+    document.querySelector(".hero").style.display="";
+    document.querySelector(".stats").style.display="";
+    document.querySelectorAll("body > section:not(#seat-selection)").forEach(s=>s.style.display="");
+    document.querySelector("footer").style.display="";
+    window.scrollTo(0,0);
+}
+document.addEventListener("click",function(e){
+    if(e.target.classList.contains("available") && e.target.classList.contains("seat")){
+        e.target.classList.toggle("selected");
+        updateSeats();
+    }
+});
+function updateSeats(){
+    const selected=[...document.querySelectorAll(".seat.selected")].map(x=>x.dataset.seat);
+    document.getElementById("selected-seats").textContent=selected.length?selected.join(", "):"None";
+    document.getElementById("total-price").textContent="₹"+(selected.length*599);
+}
+function continueBooking(){
+    const selected=document.querySelectorAll(".seat.selected").length;
+    if(!selected){alert("Please select at least one seat.");return;}
+    alert("Seats "+[...document.querySelectorAll(".seat.selected")].map(x=>x.dataset.seat).join(", ")+" selected. Continue to passenger details.");
+}
+function searchBus(){
+    const inputs=document.querySelectorAll(".hero-card input");
+    const from=inputs[0].value,to=inputs[1].value;
+    if(!from||!to){alert("Please enter From and To locations.");return;}
+    showSeatPage();
+}
+</script>
+
+
+</body>
+</html>
