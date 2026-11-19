@@ -1,0 +1,21 @@
+@startuml
+class Person { +id: int; +name: string; +contact: string }
+class Student { +rollNo: string; +department: string }
+class Staff { +staffId: string; +designation: string }
+class Visitor { +purpose: string; +whomToMeet: string }
+class SecurityGuard { +guardId: string; +shift: string; +verifyEntry(); +logIncident() }
+class IDCard { +cardNo: string; +issueDate: date; +expiryDate: date; +isValid() }
+class GateEntry { +entryId: int; +inTime: datetime; +outTime: datetime; +gate: string }
+class Incident { +incidentId: int; +description: string; +severity: string; +reportedAt: datetime }
+class CCTV { +cameraId: int; +location: string; +isActive: bool; +recordFeed() }
+class Admin { +manageAccess(); +generateReports() }
+Person <|-- Student
+Person <|-- Staff
+Person <|-- Visitor
+Person "1" -- "0..1" IDCard : holds
+Person "1" -- "0..*" GateEntry : makes
+SecurityGuard "1" -- "0..*" GateEntry : verifies
+SecurityGuard "1" -- "0..*" Incident : reports
+CCTV "1..*" -- "0..*" Incident : captures
+Admin -- SecurityGuard : manages
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+actor Student
+participant "Security Guard" as SG
+participant System
+database DB
+Student -> SG : Presents ID card
+SG -> System : Scan card
+System -> DB : Fetch card & validity
+DB --> System : Card details
+alt valid
+  System --> SG : Access granted
+  System -> DB : Log GateEntry
+  SG --> Student : Allow entry
+else invalid / expired
+  System --> SG : Access denied
+  SG --> Student : Deny, redirect to office
+end
+@enduml
