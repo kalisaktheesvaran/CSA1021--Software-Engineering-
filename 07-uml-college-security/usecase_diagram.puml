@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+actor Student; actor Staff; actor Visitor; actor "Security Guard" as SG; actor Admin
+rectangle "College Security Management System" {
+  usecase "Scan ID Card" as U1
+  usecase "Verify Entry / Exit" as U2
+  usecase "Register Visitor" as U3
+  usecase "Log Incident" as U4
+  usecase "Monitor CCTV" as U5
+  usecase "Issue / Block ID Card" as U6
+  usecase "Generate Reports" as U7
+}
+Student --> U1; Staff --> U1; Visitor --> U3
+SG --> U2; SG --> U4; SG --> U5; SG --> U3
+Admin --> U6; Admin --> U7
+U1 ..> U2 : <<include>>
+@enduml
