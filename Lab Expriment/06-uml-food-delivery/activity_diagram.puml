@@ -1,0 +1,22 @@
+@startuml
+start
+:Customer logs in;
+:Browse restaurants and select items;
+:Place order;
+:Make payment;
+if (Payment successful?) then (yes)
+  :Restaurant receives order;
+  if (Restaurant accepts?) then (yes)
+    :Prepare food;
+    :Assign delivery partner;
+    :Pick up and deliver;
+    :Customer receives order;
+    :Rate and review;
+  else (no)
+    :Order cancelled, refund issued;
+  endif
+else (no)
+  :Show payment failure, retry;
+endif
+stop
+@enduml

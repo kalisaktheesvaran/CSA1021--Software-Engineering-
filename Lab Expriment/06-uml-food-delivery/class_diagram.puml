@@ -1,0 +1,16 @@
+@startuml
+class Customer { +id: int; +name: string; +address: string; +phone: string; +placeOrder(); +trackOrder(); +makePayment() }
+class Restaurant { +id: int; +name: string; +location: string; +updateMenu(); +acceptOrder() }
+class MenuItem { +id: int; +name: string; +price: float; +available: bool }
+class Order { +orderId: int; +status: string; +totalAmount: float; +placedAt: date; +calculateTotal(); +updateStatus() }
+class OrderItem { +quantity: int; +subtotal: float }
+class Payment { +paymentId: int; +method: string; +amount: float; +status: string; +process() }
+class DeliveryPartner { +id: int; +name: string; +vehicleNo: string; +isAvailable: bool; +acceptDelivery(); +updateLocation() }
+Customer "1" -- "0..*" Order : places
+Restaurant "1" -- "0..*" Order : receives
+Restaurant "1" *-- "1..*" MenuItem : offers
+Order "1" *-- "1..*" OrderItem : contains
+OrderItem "*" -- "1" MenuItem
+Order "1" -- "1" Payment : paid by
+DeliveryPartner "1" -- "0..*" Order : delivers
+@enduml
