@@ -1,0 +1,13 @@
+ID,Requirement,MoSCoW,Rationale
+R1,User login & authentication,Must have,Core access control
+R2,Add/update/delete books,Must have,Catalogue is the system's core
+R3,Issue and return books,Must have,Core function
+R4,Search catalogue,Must have,Essential usability
+R5,Member registration,Must have,Needed to issue books
+R6,Fine calculation for overdue books,Should have,Important but can be manual at first
+R7,Book reservation,Should have,"Valuable, not critical"
+R8,Email/SMS due-date reminders,Should have,Improves compliance
+R9,Monthly usage reports,Could have,Nice to have
+R10,Barcode/QR scanning,Could have,Efficiency improvement
+R11,E-book lending,Won't have (this release),Out of scope for v1
+R12,Mobile app,Won't have (this release),Planned for future release
