@@ -1,0 +1,9 @@
+Summary,Issue Type,Priority,Story Points,Description,Epic Name
+Library Portal,Epic,High,,Overall epic for the project,Library Portal
+User registration and login,Story,High,5,"As a member I want to register and log in so that I can access the portal",
+Search books by title/author,Story,High,5,"As a member I want to search the catalogue",
+Issue and return books,Story,High,8,"As a librarian I want to issue and return books",
+Fine calculation,Story,Medium,3,"As a librarian I want overdue fines calculated automatically",
+Reservation of books,Story,Medium,5,"As a member I want to reserve a book",
+Admin reports dashboard,Story,Low,8,"As an admin I want monthly reports",
+Fix login timeout bug,Bug,High,2,"Session expires too quickly",
