@@ -1,0 +1,11 @@
+Summary,Issue Type,Priority,Labels,Description
+User login,Story,Highest,"Must-have,Kano-Basic","Kano: Basic (expected). Absence causes dissatisfaction."
+Create/edit/delete tasks,Story,Highest,"Must-have,Kano-Basic","Kano: Basic"
+Assign tasks to users,Story,High,"Must-have,Kano-Performance","Kano: Performance - more is better"
+Task deadlines and status,Story,High,"Must-have,Kano-Performance","Kano: Performance"
+Email notifications,Story,Medium,"Should-have,Kano-Performance","Kano: Performance"
+Kanban drag-and-drop board,Story,Medium,"Should-have,Kano-Attractive","Kano: Attractive (delighter)"
+Gantt chart view,Story,Low,"Could-have,Kano-Attractive","Kano: Attractive"
+AI task suggestions,Story,Low,"Could-have,Kano-Attractive","Kano: Attractive"
+Time tracking,Story,Low,"Could-have,Kano-Indifferent","Kano: Indifferent"
+Offline desktop client,Story,Lowest,"Wont-have,Kano-Indifferent","Out of scope for v1"
