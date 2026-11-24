@@ -1,0 +1,12 @@
+Summary,Issue Type,Priority,Labels,Description
+Student registration & login,Story,Highest,"Must-have,Kano-Basic","Expected by every user"
+Course catalogue and enrollment,Story,Highest,"Must-have,Kano-Basic","Core function"
+Video lecture streaming,Story,Highest,"Must-have,Kano-Performance","Better quality = more satisfaction"
+Quizzes and assignments,Story,High,"Must-have,Kano-Performance","Assessment"
+Progress tracking,Story,High,"Should-have,Kano-Performance","Learner tracking"
+Discussion forum,Story,Medium,"Should-have,Kano-Performance","Peer support"
+Certificate generation,Story,Medium,"Should-have,Kano-Attractive","Delighter"
+Gamification badges,Story,Low,"Could-have,Kano-Attractive","Delighter"
+AI course recommendations,Story,Low,"Could-have,Kano-Attractive","Delighter"
+Live virtual classroom,Story,Low,"Could-have,Kano-Performance","Future phase"
+VR classrooms,Story,Lowest,"Wont-have,Kano-Indifferent","Out of scope"
